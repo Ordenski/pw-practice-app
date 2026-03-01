@@ -58,9 +58,6 @@ test('lists and dropdowns', async ({page}) => {
     const dropDownMenu = page.locator('ngx-header nb-select')
     await dropDownMenu.click()
 
-    page.getByRole('list') // when the list has a UL tag
-    page.getByRole('listitem') // when the list has LI tag
-
     // const optionList = page.getByRole('list').locator('nb-option')
     const optionList = page.locator('nb-option-list nb-option')
     await expect(optionList).toHaveText(["Light", "Dark", "Cosmic", "Corporate"])
@@ -92,7 +89,6 @@ test('tooltips', async ({page}) => {
     const toolTipCard = page.locator('nb-card', {hasText: "Tooltip Placements"})
     await toolTipCard.getByRole('button', {name: "Top"}).hover()
 
-    page.getByRole('tooltip') // if you have a role tooltip created
     const tooltip = await page.locator('nb-tooltip').textContent()
     expect(tooltip).toEqual('This is a tooltip')
 })
@@ -184,7 +180,7 @@ test('datepicker', async ({page}) => {
 })
 
 test('sliders', async ({page}) => {
-    // update attribute
+    // update attribute - one way
     // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
     // await tempGauge.evaluate( node => {
     //     node.setAttribute('cx', '232.630')
@@ -192,7 +188,7 @@ test('sliders', async ({page}) => {
     // })
     // await tempGauge.click()
 
-    // simulates mouse movement
+    // simulates mouse movement - another way
     const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
     await tempBox.scrollIntoViewIfNeeded()
 
