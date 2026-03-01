@@ -46,18 +46,19 @@ test('User facing locators', async ({page}) => {
 
     await page.getByText('Using the Grid').click()
 
-    //await page.getByTitle('IoT Dashboard').click()
-
     await page.getByTestId('SignIn').click()
 })
 
 test('locating child elements', async ({page}) => {
-    await page.locator('nb-card nb-radio :text-is("Option 2")').click() //best option
+    //best option
+    await page.locator('nb-card nb-radio :text-is("Option 2")').click()
+
     await page.locator('nb-card').locator('nb-radio').locator(':text-is("Option 2")').click()
 
     await page.locator('nb-card').getByRole('button', {name: "Sign in"}).first().click()
 
-    await page.locator('nb-card').nth(3).getByRole('button').click() //not recommanded 
+    //not recommanded 
+    await page.locator('nb-card').nth(3).getByRole('button').click()
 
 })
 
@@ -87,6 +88,7 @@ test('reusing the locators - my way', async ({page}) => {
     //fill email and password
     await page.locator('#exampleInputEmail1').fill('test@test.com')
     await page.locator('#exampleInputPassword1').fill('Welcome1234')
+
     //click on checkbox and submit button
     await page.locator('.text', {hasText: 'Check me out'}).click()
     await page.locator('.status-danger').click()
@@ -95,16 +97,16 @@ test('reusing the locators - my way', async ({page}) => {
 })
 
 test('extracting values', async ({page}) => {
-    //single text value
+    //take single text value from locator
     const basicForm = page.locator('nb-card').filter({hasText: "Basic form"})
     const buttonText = await basicForm.locator('button').textContent()
     expect (buttonText).toEqual('Submit')
 
-    //all text values
+    //all text values from locators
     const allRadioButtonsLabels = await page.locator('nb-radio').allTextContents()
     expect(allRadioButtonsLabels).toContain("Option 1")
 
-    //input value
+    //take input value from form input field
     const emailField = basicForm.getByRole('textbox', {name: "Email"})
     await emailField.fill('test@test.com')
     const emailValue = await emailField.inputValue()
@@ -127,7 +129,7 @@ test('extracting values', async ({page}) => {
     //locator assertion
     await expect(basicFormButton).toHaveText('Submit')
 
-    //soft assertion
+    //soft assertion - the test continues to run even if a check fails
     await expect.soft(basicFormButton).toHaveText('Submit5')
     await basicFormButton.click()
  })
