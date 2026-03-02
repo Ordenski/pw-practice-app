@@ -25,6 +25,21 @@ test.describe('Form Layouts page', () => {
         await expect(usingTheGridEmailInput).toHaveValue('test2@test.com')
     })
 
+    test('input fields in Basic form', async ({page}) => {
+        const basicFormEmailInput = page.locator('nb-card', {hasText: "Basic form"}).getByRole('textbox', {name: "Email"})
+
+        await basicFormEmailInput.fill('test@test.com')
+        await basicFormEmailInput.clear()
+        await basicFormEmailInput.pressSequentially('test_basic_form@test.com', {delay: 200})
+
+        // generic assertion
+        const inputValue = await basicFormEmailInput.inputValue()
+        expect(inputValue).toEqual('test_basic_form@test.com')
+
+        // locator assertion
+        await expect(basicFormEmailInput).toHaveValue('test_basic_form@test.com')
+    })
+
     test('radio buttons', async ({page}) => {
         const usingTheGridForm = page.locator('nb-card', {hasText: "Using the Grid"})
 
